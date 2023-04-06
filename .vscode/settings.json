@@ -1,0 +1,5 @@
+{
+  "workbench.colorTheme": "paddy-emerald",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

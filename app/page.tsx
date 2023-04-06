@@ -1,10 +1,16 @@
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from './page.module.css'
+import { useCallback } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+
+  const handleClick = useCallback(() => {
+    console.log('clicked')
+  }, [])
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
@@ -85,6 +91,10 @@ export default function Home() {
             Instantly deploy your Next.js site to a shareable URL with Vercel.
           </p>
         </a>
+
+        <button className='text-red-700 bg-gray-400 rounded-lg'>Click Me</button>
+      
+
       </div>
     </main>
   )
