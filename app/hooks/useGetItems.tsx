@@ -5,5 +5,9 @@ import { getItems } from "../client/getItems";
 import { getItemsUrl } from "../client/getItemsUrl";
 
 export const useGetItems = () => {
-  return useSWR<ItemType[]>(getItemsUrl(""), getItems);
+  return useSWR<ItemType[]>(getItemsUrl(""), getItems, {
+    revalidateIfStale: true,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+  });
 };

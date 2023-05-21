@@ -1,5 +1,6 @@
-item {
-    .item-enter-done {
-        border: solid 20px black;
-    }
+.ItemEnter {
+}
+.ItemEnterActive {
+}
+.ItemEnterDone {
 }

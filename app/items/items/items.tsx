@@ -4,8 +4,7 @@ import { Item } from "../item/item";
 import { ItemType } from "@/app/types/types";
 import { useGetItems } from "@/app/hooks/useGetItems";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
-// import * as styles from "./items.module.css";
-
+import styles from "./items.module.css";
 
 type ItemsProps = {
   serverData: ItemType[];
@@ -27,9 +26,13 @@ export const Items = ({ serverData }: ItemsProps) => {
           key={x.id}
           nodeRef={x.ref}
           timeout={1000}
-          classNames={"item"}
+          classNames={{
+            enter: styles.ItemEnter,
+            enterActive: styles.ItemEnterActive,
+            enterDone: styles.ItemEnterDone,
+          }}
         >
-          <div className="item" ref={x.ref}>
+          <div className={styles.item} ref={x.ref}>
             <Item item={x} />
           </div>
         </CSSTransition>
