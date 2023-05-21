@@ -31,7 +31,7 @@ export const usePostItem = () => {
           ...data,
         ],
         populateCache: (item: ItemType, data: ItemType[] = []): ItemType[] => [
-          item,
+          {...item, id: timestamp},
           ...data,
         ],
         revalidate: false,
