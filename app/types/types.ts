@@ -1,6 +1,10 @@
 import { OPERATIONS } from '../constants/api';
 
-export type ItemType = {
+export type ApiStatus = { 
+  isMutating?: boolean;
+}
+
+export type ItemType = ApiStatus & {
   id: string;
   name: string;
   person: string;
@@ -10,6 +14,6 @@ export type ItemType = {
     max: number;
   };
   startDate: string;
-};
+}
 
 export type Operations = typeof OPERATIONS[number];

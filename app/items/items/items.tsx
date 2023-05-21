@@ -1,21 +1,39 @@
 "use client";
-import { API_ITEMS_URL } from "@/app/constants/api";
-import useSWR from "swr";
-import { ItemsGetFetcher } from "../../client/itemsGetFetcher";
+import React, { RefObject } from "react";
 import { Item } from "../item/item";
 import { ItemType } from "@/app/types/types";
-import { useFetchItems } from "@/app/hooks/useFetchItems";
+import { useGetItems } from "@/app/hooks/useGetItems";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
+// import * as styles from "./items.module.css";
+
 
 type ItemsProps = {
   serverData: ItemType[];
 };
 export const Items = ({ serverData }: ItemsProps) => {
-  const { data } = useFetchItems();
+  const { data } = useGetItems();
+  if (!data) {
+    return null;
+  }
+  const dataWithRef = data.map((x) => ({
+    ...x,
+    ref: React.createRef<HTMLDivElement>(),
+  }));
+
   return (
-    <>
-      {(data ?? serverData).map((x) => (
-        <Item key={x.id} item={x} />
+    <TransitionGroup component={null}>
+      {(dataWithRef ?? serverData).map((x) => (
+        <CSSTransition
+          key={x.id}
+          nodeRef={x.ref}
+          timeout={1000}
+          classNames={"item"}
+        >
+          <div className="item" ref={x.ref}>
+            <Item item={x} />
+          </div>
+        </CSSTransition>
       ))}
-    </>
+    </TransitionGroup>
   );
 };

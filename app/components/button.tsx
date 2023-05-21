@@ -4,7 +4,7 @@ import { MouseEventHandler, PropsWithChildren, useEffect } from "react";
 type ButtonProps = PropsWithChildren<{
   onClick: MouseEventHandler<HTMLButtonElement>;
 }>;
-export const ItemButton = ({ onClick, children }: ButtonProps) => {
+export const Button = ({ onClick, children }: ButtonProps) => {
   return (
     <button
       type="button"
