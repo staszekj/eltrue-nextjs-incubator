@@ -12,19 +12,22 @@ import { getItemsUrl } from "../client/getItemsUrl";
 import { usePostItem } from "../hooks/usePostItems";
 import { AddItemButton } from "./AddItemButtonProps";
 
-type PageProps = {
-  fallback: Record<string, ItemType[]>;
-};
-export default async ({ fallback }: PageProps) => {
+export default async ({
+  searchParams
+}: {
+  searchParams?: { q?: string };
+}) => {
   try {
-    const data = await getItems(getItemsUrl(""));
+    const data = await getItems(getItemsUrl(searchParams?.q ?? ""));
     return (
       <div className="flex flex-col items-stretch p-3">
         <div className="flex flex-col justify-between md:flex-row">
           <div className="md:w-1/3">
             <Search />
           </div>
-          <div className=""><AddItemButton>Add new item</AddItemButton></div>
+          <div className="">
+            <AddItemButton>Add new item</AddItemButton>
+          </div>
         </div>
         <div className="grid grid-cols-1 gap-2 mt-5 md:grid-cols-3">
           <Items serverData={data} />

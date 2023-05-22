@@ -1,6 +1,24 @@
 .ItemEnter {
+  opacity: 0;
+  transform: translateY(-100%);
 }
 .ItemEnterActive {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform opacity;
+  transition-duration: 1000ms;
 }
-.ItemEnterDone {
+.ItemEnderDone {
+  transition: none;
+}
+
+.ItemExit {
+  opacity: 1;
+}
+.ItemExitActive {
+  opacity: 0;
+  transition: opacity 1000ms;
+}
+.ItemExitDone {
+  transition: none;
 }

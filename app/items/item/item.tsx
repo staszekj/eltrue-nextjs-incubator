@@ -4,9 +4,18 @@ import React, { forwardRef, useCallback, useEffect } from "react";
 import { ItemType } from "@/app/types/types";
 import { formatParticipants, formatStartDate } from "@/app/utils/formaters";
 import { Button } from "@/app/components/button";
-import dynamic from "next/dynamic";
+import { tv } from "tailwind-variants";
 
 // const ItemButton = dynamic(() => import("@/app/components/button"), { ssr: false });
+
+const tvLineValue = tv({
+  base: "text-neutral-500 dark:text-neutral-200 transition-opacity duration-500 ease-in-out",
+  variants: {
+    hidden: {
+      true: "opacity-0",
+    },
+  },
+});
 
 type ItemProps = {
   item: ItemType;
@@ -40,25 +49,25 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({ item }, ref) => {
       <div>
         <p className="text-base text-neutral-600 dark:text-neutral-200">
           Person:{" "}
-          <span className="text-neutral-500 dark:text-neutral-200">
+          <span className={tvLineValue({hidden: isMutating})}>
             {person}
           </span>
         </p>
         <p className="text-base text-neutral-600 dark:text-neutral-200">
           Category:{" "}
-          <span className="text-neutral-500 dark:text-neutral-200">
+          <span className={tvLineValue({hidden: isMutating})}>
             {category}
           </span>
         </p>
         <p className="text-base text-neutral-600 dark:text-neutral-200">
           Amount:{" "}
-          <span className="text-neutral-500 dark:text-neutral-200">
+          <span className={tvLineValue({hidden: isMutating})}>
             {formatParticipants(amount)}
           </span>
         </p>
         <p className="text-base text-neutral-600 dark:text-neutral-200">
           Start:{" "}
-          <span className="text-neutral-500 dark:text-neutral-200">
+          <span className={tvLineValue({hidden: isMutating})}>
             {formatStartDate(startDate)}
           </span>
         </p>
@@ -66,7 +75,6 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({ item }, ref) => {
       <div className="flex gap-3 mt-3">
         <Button onClick={handleEditClick}>Edit</Button>
         <Button onClick={handleDeleteClick}>Delete</Button>
-        {isMutating && <div>Mutating</div>}
       </div>
     </div>
   );
