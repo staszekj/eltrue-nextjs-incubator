@@ -3,13 +3,8 @@ import { ItemType } from "../types/types";
 import { Fetcher } from "swr";
 
 export const getItems: Fetcher<ItemType[], string> = async (url: string) => {
-  console.log("getItems", {url});
   const response: Response = await fetch(url);
-  await sleep(500);
-
-  //   if (!response.ok) {
-  //     throw new Error(response.statusText);
-  //   }
+  await sleep(2000);
 
   return await response.json();
 };

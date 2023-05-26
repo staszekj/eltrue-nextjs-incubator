@@ -14,7 +14,6 @@ export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
-  x: number;
 }) {
   return (
     <html lang="en" style={{ fontFamily: roboto.style.fontFamily }}>

@@ -1,17 +1,20 @@
-import { API_ITEMS_URL } from "../constants/api";
 import useSWRMutation from "swr/mutation";
 import { ItemType } from "../types/types";
-import { getItems } from "../client/getItems";
-import { getItemsUrl } from "../client/getItemsUrl";
 import { postItems } from "../client/postItems";
+import { useItemsUrl } from "./useItemsUrl";
+import { creatingItemStatusRWAtom } from "../jotai/searchAtom";
+import { useAtom, useSetAtom } from "jotai";
 
 export const usePostItem = () => {
+  const url = useItemsUrl();
+  const writeStatus = useSetAtom(creatingItemStatusRWAtom);
   const { trigger, isMutating } = useSWRMutation<
     ItemType,
     undefined,
     string,
     string
-  >(getItemsUrl(""), postItems);
+  >(url, postItems);
+  writeStatus(isMutating ? "creating" : null);
   return {
     triggerPostItem: (name: string) => {
       const timestamp = String(new Date().getTime());
@@ -31,7 +34,7 @@ export const usePostItem = () => {
           ...data,
         ],
         populateCache: (item: ItemType, data: ItemType[] = []): ItemType[] => [
-          {...item, id: timestamp},
+          { ...item, id: timestamp },
           ...data,
         ],
         revalidate: false,

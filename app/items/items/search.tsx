@@ -1,15 +1,52 @@
 "use client";
 
+import { ChangeEventHandler, useCallback, useRef, useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
+import {
+  itemAPIInProgressRAtom,
+  loadingItemsStatusAtom,
+  itemsQueryWAtom,
+} from "@/app/jotai/searchAtom";
+
 export const Search = () => {
+  const timerRef = useRef<number | null>(null);
+  const setSearch = useSetAtom(itemsQueryWAtom);
+  const inProgress = useAtomValue(itemAPIInProgressRAtom);
+  console.log("!!! inProgress", inProgress);
+
+  const inputOnChange: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
+      if (timerRef.current) {
+        window.clearTimeout(timerRef.current);
+      }
+      timerRef.current = window.setTimeout(() => {
+        setSearch(e.target.value);
+      }, 500);
+    },
+    []
+  );
   return (
     <div className="mb-3">
-      <div className="relative mb-4 flex w-full flex-wrap items-stretch">
+      <div className="relative flex flex-wrap items-stretch w-full mb-4">
+        <div className="w-12 flex flex-col justify-center items-center">
+          {inProgress && (
+            <div
+              className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+              role="status"
+            >
+              <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                Loading...
+              </span>
+            </div>
+          )}
+        </div>
         <input
           type="search"
           className="relative m-0 -mr-0.5 block w-[1px] min-w-0 flex-auto rounded-l border border-solid border-neutral-300 bg-transparent bg-clip-padding px-3 py-[0.25rem] text-base font-normal leading-[1.6] text-neutral-700 outline-none transition duration-200 ease-in-out focus:z-[3] focus:border-primary focus:text-neutral-700 focus:shadow-[inset_0_0_0_1px_rgb(59,113,202)] focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:placeholder:text-neutral-200 dark:focus:border-primary"
           placeholder="Search"
           aria-label="Search"
           aria-describedby="button-addon1"
+          onChange={inputOnChange}
         />
 
         <button
@@ -23,7 +60,7 @@ export const Search = () => {
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
-            className="h-5 w-5"
+            className="w-5 h-5"
           >
             <path
               fillRule="evenodd"

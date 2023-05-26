@@ -4,8 +4,6 @@ import { Fetcher } from "swr";
 
 export const postItems = async (url: string, { arg }: { arg: string }) => {
   try {
-    // randomFailure();
-
     const response: Response = await fetch(url, {
       method: "POST",
       headers: {

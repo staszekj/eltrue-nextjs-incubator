@@ -1,13 +1,18 @@
-import { API_ITEMS_URL } from "../constants/api";
 import useSWR from "swr";
 import { ItemType } from "../types/types";
 import { getItems } from "../client/getItems";
-import { getItemsUrl } from "../client/getItemsUrl";
+import { useItemsUrl } from "./useItemsUrl";
+import { useSetAtom } from "jotai";
+import { loadingItemsStatusAtom } from "../jotai/searchAtom";
 
 export const useGetItems = () => {
-  return useSWR<ItemType[]>(getItemsUrl(""), getItems, {
+  const setLoadingSearchStatus = useSetAtom(loadingItemsStatusAtom);
+  const url = useItemsUrl();
+  const swr = useSWR<ItemType[]>(url, getItems, {
     revalidateIfStale: true,
     revalidateOnFocus: false,
-    revalidateOnReconnect: false
+    revalidateOnReconnect: false,
   });
+  setLoadingSearchStatus(swr.isLoading ? "loading" : null);
+  return swr;
 };

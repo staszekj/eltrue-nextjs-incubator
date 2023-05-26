@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject } from "react";
+import React, { RefObject, useEffect } from "react";
 import { Item } from "../item/item";
 import { ItemType } from "@/app/types/types";
 import { useGetItems } from "@/app/hooks/useGetItems";
