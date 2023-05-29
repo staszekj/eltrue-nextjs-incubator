@@ -6,6 +6,7 @@ export type ApiStatus = {
 
 export type ItemType = ApiStatus & {
   id: string;
+  timestamp?: string;
   name: string;
   person: string;
   category: string;

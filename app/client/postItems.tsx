@@ -19,5 +19,6 @@ export const postItems = async (url: string, { arg }: { arg: string }) => {
     return await response.json();
   } catch (error: unknown) {
     console.error(error);
+    throw error;
   }
 };

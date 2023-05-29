@@ -24,7 +24,7 @@ export const Items = ({ serverData }: ItemsProps) => {
     <TransitionGroup component={null}>
       {(dataWithRef ?? serverData).map((d) => (
         <CSSTransition
-          key={d.id}
+          key={d.timestamp ?? d.id }
           nodeRef={d.ref}
           timeout={1000}
           classNames={{

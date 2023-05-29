@@ -3,6 +3,7 @@ import { ItemType } from "../types/types";
 import { postItems } from "../client/postItems";
 import { useItemsUrl } from "./useItemsUrl";
 import { useItemsStore } from "./useItemsStore";
+import { time } from "console";
 
 export const usePostItem = () => {
   const url = useItemsUrl();
@@ -17,6 +18,7 @@ export const usePostItem = () => {
     triggerPostItem: (name: string) => {
       const timestamp = String(new Date().getTime());
       const newItem: ItemType = {
+        timestamp: timestamp,
         id: timestamp,
         name,
         amount: { current: 0, max: 0 },
@@ -32,7 +34,7 @@ export const usePostItem = () => {
           ...data,
         ],
         populateCache: (item: ItemType, data: ItemType[] = []): ItemType[] => [
-          { ...item, id: timestamp },
+          { ...item, timestamp },
           ...data,
         ],
         onSuccess: () => {
