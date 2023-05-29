@@ -2,12 +2,11 @@ import useSWRMutation from "swr/mutation";
 import { ItemType } from "../types/types";
 import { postItems } from "../client/postItems";
 import { useItemsUrl } from "./useItemsUrl";
-import { creatingItemStatusRWAtom } from "../jotai/searchAtom";
-import { useSetAtom } from "jotai";
+import { useItemsStore } from "./useItemsStore";
 
 export const usePostItem = () => {
   const url = useItemsUrl();
-  const writeStatus = useSetAtom(creatingItemStatusRWAtom);
+  const diableMutating = useItemsStore((state) => state.disableMutating)
   const { trigger, isMutating } = useSWRMutation<
     ItemType,
     undefined,
@@ -37,10 +36,10 @@ export const usePostItem = () => {
           ...data,
         ],
         onSuccess: () => {
-          writeStatus(null);
+          diableMutating();
         },
         onError: () => {
-          writeStatus(null);
+          diableMutating();
         },
         revalidate: false,
       });

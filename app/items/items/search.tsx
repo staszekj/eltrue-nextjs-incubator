@@ -1,18 +1,15 @@
 "use client";
 
 import { ChangeEventHandler, useCallback, useRef } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
-import {
-  creatingItemStatusRWAtom,
-  itemsQueryWAtom,
-} from "@/app/jotai/searchAtom";
 import { useGetItems } from "@/app/hooks/useGetItems";
+import { useItemsStore } from "@/app/hooks/useItemsStore";
 
 export const Search = () => {
   const timerRef = useRef<number | null>(null);
-  const setSearch = useSetAtom(itemsQueryWAtom);
   const { isLoading } = useGetItems();
-  const inProgress = useAtomValue(creatingItemStatusRWAtom) || isLoading;
+  const isMutating = useItemsStore((state) => state.isItemsMutating)
+  const setSearchQuery = useItemsStore((state) => state.setSearchQuery)
+  const inProgress = isMutating || isLoading;
 
   const inputOnChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
@@ -20,7 +17,7 @@ export const Search = () => {
         window.clearTimeout(timerRef.current);
       }
       timerRef.current = window.setTimeout(() => {
-        setSearch(e.target.value);
+        setSearchQuery(e.target.value);
       }, 1000);
     },
     []

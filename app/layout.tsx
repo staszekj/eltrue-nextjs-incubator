@@ -1,6 +1,5 @@
 import "./globals.css";
 import { Roboto } from "next/font/google";
-import { JotaiProvider } from "./jotai/jotaiProvider";
 import "tw-elements/dist/css/tw-elements.min.css";
 
 const roboto = Roboto({ weight: "400", subsets: ["latin"] });
@@ -17,9 +16,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" style={{ fontFamily: roboto.style.fontFamily }}>
-      <body>
-        <JotaiProvider>{children}</JotaiProvider>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

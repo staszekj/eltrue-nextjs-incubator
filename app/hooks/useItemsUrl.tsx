@@ -1,11 +1,11 @@
-import { useAtomValue } from "jotai";
 import { useSearchParams } from "next/navigation";
-import { itemsQueryAtom } from "../jotai/searchAtom";
 import { getItemsApiUrl } from "../utils/getItemsUrl";
+import { useItemsStore } from "./useItemsStore";
 
 export const useItemsUrl = () => {
   const searchParams = useSearchParams();
   const q = searchParams.get("q");
-  const search = useAtomValue(itemsQueryAtom);
-  return getItemsApiUrl(search ?? q ?? "");
+  const searchQuery = useItemsStore((state) => state.searchQuery);
+  const query = searchQuery ?? q ?? ""
+  return getItemsApiUrl(query);
 };
