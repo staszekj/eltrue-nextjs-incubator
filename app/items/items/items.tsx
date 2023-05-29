@@ -1,5 +1,5 @@
 "use client";
-import React, { RefObject, useEffect } from "react";
+import React, { RefObject, useEffect, useRef, useState } from "react";
 import { Item } from "../item/item";
 import { ItemType } from "@/app/types/types";
 import { useGetItems } from "@/app/hooks/useGetItems";
@@ -10,8 +10,12 @@ type ItemsProps = {
   serverData: ItemType[];
 };
 export const Items = ({ serverData }: ItemsProps) => {
+  const dataRef = useRef<ItemType[]>(serverData);
   const { data } = useGetItems();
-  const dataWithRef = (data ?? serverData).map((x) => ({
+  if (data) {
+    dataRef.current = data;
+  }
+  const dataWithRef = (dataRef.current).map((x) => ({
     ...x,
     ref: React.createRef<HTMLDivElement>(),
   }));

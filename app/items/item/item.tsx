@@ -26,14 +26,14 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({ item }, ref) => {
   const handleEditClick = useCallback(() => {
     const newName = prompt("Enter new item name:", name);
     if (newName) {
-      console.log("!!! handle edit click");
+      console.warn("!!! handle edit click");
     }
   }, [name]);
 
   const handleDeleteClick = useCallback(() => {
     // eslint-disable-next-line no-restricted-globals
     if (confirm(`Do you really want to delete this item '${name}?'`)) {
-      console.log("!!! handle delete click");
+      console.warn("!!! handle delete click");
     }
   }, [item, name]);
 

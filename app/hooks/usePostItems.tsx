@@ -3,7 +3,7 @@ import { ItemType } from "../types/types";
 import { postItems } from "../client/postItems";
 import { useItemsUrl } from "./useItemsUrl";
 import { creatingItemStatusRWAtom } from "../jotai/searchAtom";
-import { useAtom, useSetAtom } from "jotai";
+import { useSetAtom } from "jotai";
 
 export const usePostItem = () => {
   const url = useItemsUrl();
@@ -14,7 +14,6 @@ export const usePostItem = () => {
     string,
     string
   >(url, postItems);
-  writeStatus(isMutating ? "creating" : null);
   return {
     triggerPostItem: (name: string) => {
       const timestamp = String(new Date().getTime());
@@ -37,6 +36,12 @@ export const usePostItem = () => {
           { ...item, id: timestamp },
           ...data,
         ],
+        onSuccess: () => {
+          writeStatus(null);
+        },
+        onError: () => {
+          writeStatus(null);
+        },
         revalidate: false,
       });
     },
